@@ -8,6 +8,16 @@
 
 import UIKit
 
-class TextDelegate: NSObject {
-
+class TextDelegate: NSObject, UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
+        if textField.text == "EMAIL" || textField.text == "PASSWORD"  {
+            textField.text = ""
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
