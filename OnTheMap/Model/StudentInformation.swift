@@ -11,8 +11,8 @@
 // MARK: - StudentInformation: NSObject
 struct StudentInformation {
 
-    let latitude: Double
-    let longitude: Double
+    let latitude: Double!
+    let longitude: Double!
     let firstName: String
     let lastName: String
     let mediaURL: String
@@ -21,12 +21,12 @@ struct StudentInformation {
         if let latitudeString = dictionary[SIClient.JSONResponseKeys.latitude] as? Double {
             latitude = latitudeString
         } else {
-            latitude = 0
+            latitude = nil
         }
         if let longitudeString = dictionary[SIClient.JSONResponseKeys.longitude] as? Double {
             longitude = longitudeString
         } else {
-            longitude = 0
+            longitude = nil
         }
         if let firstNameString = dictionary[SIClient.JSONResponseKeys.firstName] as? String {
             firstName = firstNameString
@@ -43,22 +43,17 @@ struct StudentInformation {
         } else {
             mediaURL = ""
         }
-        /*latitude = dictionary[SIClient.JSONResponseKeys.latitude] as! Double
-        longitude = dictionary[SIClient.JSONResponseKeys.longitude] as! Double
-        firstName = dictionary[SIClient.JSONResponseKeys.firstName] as? String
-        lastName = dictionary[SIClient.JSONResponseKeys.lastName] as? String
-        mediaURL = dictionary[SIClient.JSONResponseKeys.mediaURL] as? String*/
     }
 
-    static func studentsFromResults(_ results: [[String:AnyObject]]) -> [StudentInformation] {
-        
+    //static func studentsFromResults(_ results: [[String:AnyObject]]) -> [StudentInformation] {
+    static func studentsFromResults(_ results: [[String:AnyObject]]) {
         var students = [StudentInformation]()
         
         // iterate through array of dictionaries, each Student is a dictionary
         for result in results {
             students.append(StudentInformation(dictionary: result))
         }
-        
-        return students
+        StudentArray.sharedInstance = students
+        //return students
     }
 }

@@ -13,14 +13,13 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     var bolSubmit: Bool = false
     
     @IBAction func segInfoPost(_ sender: Any) {
-        let controller: UITabBarController
-        controller = storyboard?.instantiateViewController(withIdentifier: "TabBarController") as!UITabBarController
-        present(controller, animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
 
     @IBAction func addNewPin(_ sender: Any) {
         bolSubmit = true
-        if verifyUrl(urlString: txbURL.text) {
+        if verifyUrl(urlString: URLTextField.text) {
             addPin(sender)
         } else {
             generateAlert(alrtMessage: "Invalid URL")
@@ -28,16 +27,16 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func addPin(_ sender: Any) {
-        if txbLocation.text == "" {
+        if LocationTextField.text == "" {
             generateAlert(alrtMessage: "Enter a Location")
         } else {
             manageDisplay(bolMap: false)
             self.activityIndicatorView.startAnimating()
-            CLGeocoder().geocodeAddressString(txbLocation.text!, completionHandler: {(placemarks, error)->Void in
+            CLGeocoder().geocodeAddressString(LocationTextField.text!, completionHandler: {(placemarks, error)->Void in
                 if error == nil {
                     var placemark: CLPlacemark!
                     placemark = placemarks?[0]
-                    self.mpMap.setRegion(MKCoordinateRegionMake(CLLocationCoordinate2DMake ((placemark.location?.coordinate.latitude)!, (placemark.location?.coordinate.longitude)!), MKCoordinateSpanMake(0.002, 0.002)), animated: true)
+                    self.StuddentMapView.setRegion(MKCoordinateRegionMake(CLLocationCoordinate2DMake ((placemark.location?.coordinate.latitude)!, (placemark.location?.coordinate.longitude)!), MKCoordinateSpanMake(0.002, 0.002)), animated: true)
                     self.activityIndicatorView.stopAnimating()
                     let dblLong = (placemark.location?.coordinate.longitude)!
                     let dblLat = (placemark.location?.coordinate.latitude)!
@@ -47,7 +46,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
                         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
                         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
                         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-                        request.httpBody = "{\"uniqueKey\": \"js2387\", \"firstName\": \"JD\", \"lastName\": \"Mmmm\",\"mapString\": \"\(self.txbLocation.text!)\", \"mediaURL\": \"\(self.txbURL.text!)\",\"latitude\": \(dblLat), \"longitude\": \(dblLong)}".data(using: .utf8)
+                        request.httpBody = "{\"uniqueKey\": \"js2387\", \"firstName\": \"JD\", \"lastName\": \"Mmmm\",\"mapString\": \"\(self.LocationTextField.text!)\", \"mediaURL\": \"\(self.URLTextField.text!)\",\"latitude\": \(dblLat), \"longitude\": \(dblLong)}".data(using: .utf8)
                         let session = URLSession.shared
                         let task = session.dataTask(with: request) { data, response, error in
                             if error != nil { // Handle error…
@@ -66,17 +65,10 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    @IBOutlet weak var txbLocation: UITextField!
-    
-    @IBOutlet weak var txbURL: UITextField!
-    
-    @IBOutlet weak var mpMap: MKMapView!
-    
-    @IBOutlet weak var btnFind: UIButton!
-    
+    @IBOutlet weak var URLTextField: UITextField!
+    @IBOutlet weak var LocationTextField: UITextField!
+    @IBOutlet weak var StuddentMapView: MKMapView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-    
-    @IBOutlet weak var btnNav: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,8 +76,8 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
         manageDisplay(bolMap: true)
-        self.txbLocation.delegate = self as UITextFieldDelegate
-        self.txbURL.delegate = self as UITextFieldDelegate
+        self.LocationTextField.delegate = self as UITextFieldDelegate
+        self.URLTextField.delegate = self as UITextFieldDelegate
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -110,7 +102,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     }
     
     func manageDisplay(bolMap: Bool) {
-        mpMap.isHidden = bolMap
+        StuddentMapView.isHidden = bolMap
         //txbLocation.isHidden = !bolMap
         //txbURL.isHidden = !bolMap
         //btnFind.isHidden = !bolMap

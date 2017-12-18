@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C239C931FE7270F00A9C14F /* StudentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C239C921FE7270F00A9C14F /* StudentArray.swift */; };
 		5C69299D1FDD74D000850CD3 /* LogOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C69299C1FDD74D000850CD3 /* LogOut.swift */; };
 		5C9A7A541F8A9167000FD5B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A7A531F8A9167000FD5B3 /* AppDelegate.swift */; };
 		5C9A7A561F8A9167000FD5B3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A7A551F8A9167000FD5B3 /* LoginViewController.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5C239C921FE7270F00A9C14F /* StudentArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentArray.swift; sourceTree = "<group>"; };
 		5C69299C1FDD74D000850CD3 /* LogOut.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogOut.swift; sourceTree = "<group>"; };
 		5C9A7A501F8A9167000FD5B3 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C9A7A531F8A9167000FD5B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				5C9A7A5C1F8A9167000FD5B3 /* LaunchScreen.storyboard */,
 				5C9A7A5F1F8A9167000FD5B3 /* Info.plist */,
 				5CAED0A31F9ABEE90075A63A /* StudentInformation.swift */,
+				5C239C921FE7270F00A9C14F /* StudentArray.swift */,
 				5C69299C1FDD74D000850CD3 /* LogOut.swift */,
 			);
 			path = OnTheMap;
@@ -174,6 +177,7 @@
 				5CAED0A81FAFAD4E0075A63A /* SIConstants.swift in Sources */,
 				5CAED09E1F8D654C0075A63A /* TableViewController.swift in Sources */,
 				5C9A7A541F8A9167000FD5B3 /* AppDelegate.swift in Sources */,
+				5C239C931FE7270F00A9C14F /* StudentArray.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

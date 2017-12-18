@@ -17,9 +17,8 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let _ = SIClient.sharedInstance().logOut() { (data, error) in
             if error == nil {
                 performUIUpdatesOnMain {
-                    let controller: LoginViewController
-                    controller = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as!LoginViewController
-                    self.present(controller, animated: true, completion: nil)
+                    self.navigationController?.popViewController(animated: true)
+                    self.dismiss(animated: true, completion: nil)
                 }
             } else {
                 let alert = UIAlertController(title: "Alert", message: "There was a problem logging out!", preferredStyle: UIAlertControllerStyle.alert)

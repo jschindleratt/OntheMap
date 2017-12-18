@@ -11,17 +11,15 @@ import UIKit
 class LoginViewController: UIViewController, UITextViewDelegate {
     let textDelegate = TextDelegate()
     
-    @IBOutlet weak var txbID: UITextField!
-    @IBOutlet weak var txbPassword: UITextField!
-    
-    
-    @IBOutlet weak var lblMessage: UILabel!
-    @IBOutlet weak var txvNoAccount: UITextView!
+    @IBOutlet weak var TextFieldID: UITextField!
+    @IBOutlet weak var TextFieldPassword: UITextField!
+    @IBOutlet weak var LabelMessage: UILabel!
+    @IBOutlet weak var TextViewNoAccount: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.txbID.delegate = textDelegate
-        self.txbPassword.delegate = textDelegate
+        self.TextFieldID.delegate = textDelegate
+        self.TextFieldPassword.delegate = textDelegate
         
         // You must set the formatting of the link manually
         let linkAttributes = [
@@ -34,33 +32,32 @@ class LoginViewController: UIViewController, UITextViewDelegate {
         // Set the 'click here' substring to be the link
         attributedString.setAttributes(linkAttributes, range: NSMakeRange(23, 7))
         
-        self.txvNoAccount.delegate = self
-        self.txvNoAccount.attributedText = attributedString
+        self.TextViewNoAccount.delegate = self
+        self.TextViewNoAccount.attributedText = attributedString
     }  
 
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         return true
     }
     
-    
     @IBAction func uLogin(_ sender: Any) {
         var strMessage: String = ""
-        if txbID.text == "" {
+        if TextFieldID.text == "" {
             strMessage = "ID is required"
         }
-        if txbPassword.text == "" {
+        if TextFieldPassword.text == "" {
             strMessage = strMessage + "\nPassword is required"
         }
         
         if strMessage == "" {
-            logIn(strID: txbID.text!, strPassword: txbPassword.text!)
+            logIn(strID: TextFieldID.text!, strPassword: TextFieldPassword.text!)
         } else {
-            lblMessage.text = strMessage
+            LabelMessage.text = strMessage
         }
     }
 
     private func logIn(strID: String, strPassword: String) {
-        lblMessage.text = "Logging in, please wait..."
+        LabelMessage.text = "Logging in, please wait..."
         /* 1. Set the parameters         var parametersWithApiKey = parameters
          parametersWithApiKey[ParameterKeys.ApiKey] = Constants.ApiKey as AnyObject?*/
 
@@ -80,13 +77,17 @@ class LoginViewController: UIViewController, UITextViewDelegate {
             func displayError(_ error: String, debugLabelText: String? = nil) {
                 performUIUpdatesOnMain {
                     //self.setUIEnabled(true)
-                    self.lblMessage.text = error
+                    self.LabelMessage.text = error
                 }
             }
             
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                displayError("There was an error with your request: \(error!)")
+                if error!.localizedDescription == "The Internet connection appears to be offline." {
+                    displayError("The Internet connection appears to be offline.")
+                } else {
+                    displayError("There was an error with your request: \(error!)")
+                }
                 return
             }
 
@@ -114,11 +115,9 @@ class LoginViewController: UIViewController, UITextViewDelegate {
             /* 5/6. Parse the data and use the data (happens in completion handler) */
             let range = Range(5..<data!.count)
             let newData = data?.subdata(in: range) /* subset response data! */
-            //print(String(data: newData!, encoding: .utf8)!)
             let parsedResult: [String:AnyObject]!
             do {
                 parsedResult = try JSONSerialization.jsonObject(with: newData!, options: .allowFragments) as! [String:AnyObject]
-                //print(parsedResult)
             } catch {
                 print("Could not parse the data as JSON: '\(newData!)'")
                 return
@@ -148,7 +147,9 @@ class LoginViewController: UIViewController, UITextViewDelegate {
         }
         
         /* 7. Start the request */
-        task.resume()
+        performUIUpdatesOnMain {
+            task.resume()
+        }
     }
 }
 

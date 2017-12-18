@@ -8,14 +8,7 @@
 
 import Foundation
 
-class SIClient: NSObject {
-    
-    // MARK: Initializers
-    
-    override init() {
-        super.init()
-    }
-    
+class SIClient {
     func getPins(_ completionHandlerForStudents: @escaping (_ studentData: [StudentInformation]?, _ error: NSError?) -> Void) -> URLSessionTask {
         print("getPins")
         /* 1. Set the parameters
@@ -24,7 +17,7 @@ class SIClient: NSObject {
          ]*/
         
         /* 2/3. Build the URL, Configure the request */
-        let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?limit=100")!)
+        let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?limit=100&order=updatedAt")!)
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         let session = URLSession.shared
@@ -70,7 +63,9 @@ class SIClient: NSObject {
             }
 
             /* 6. Use the data!*/
-            let studentInformation: [StudentInformation] = StudentInformation.studentsFromResults((parsedResult["results"] as? [[String:AnyObject]])!)
+            //let studentInformation: [StudentInformation] = StudentInformation.studentsFromResults((parsedResult["results"] as? [[String:AnyObject]])!)
+            StudentInformation.studentsFromResults((parsedResult["results"] as? [[String:AnyObject]])!)
+            let studentInformation: [StudentInformation] = StudentArray.sharedInstance
             completionHandlerForStudents(studentInformation, nil)
         }
         task.resume()
@@ -111,13 +106,12 @@ class SIClient: NSObject {
         task.resume()
         return task
     }
-    
+
     class func sharedInstance() -> SIClient {
         struct Singleton {
             static var sharedInstance = SIClient()
         }
         return Singleton.sharedInstance
     }
-        
  }
 
