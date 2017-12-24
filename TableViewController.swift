@@ -14,7 +14,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     @IBAction func logOut(_ sender: Any) {
-        let _ = SIClient.sharedInstance().logOut() { (data, error) in
+        let _ = SIClient.sharedInstance.logOut() { (data, error) in
             if error == nil {
                 performUIUpdatesOnMain {
                     self.navigationController?.popViewController(animated: true)
@@ -49,7 +49,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     private func getPins() {
         print("getPins")
-        let _ = SIClient.sharedInstance().getPins() { (studentData, error) in
+        let _ = SIClient.sharedInstance.getPins() { (studentData, error) in
             if error == nil {
                 self.students = studentData!
                 performUIUpdatesOnMain {

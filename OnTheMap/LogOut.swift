@@ -35,11 +35,12 @@ class LogOut: NSObject {
     task.resume()
     return task
     }
-    class func sharedInstance() -> SIClient {
+    
+    /*class func sharedInstance() -> SIClient {
         struct Singleton {
             static var sharedInstance = SIClient()
         }
         return Singleton.sharedInstance
-    }
+    }*/
 
 }

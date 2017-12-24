@@ -13,7 +13,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var students: [StudentInformation]?
     
     @IBAction func logOut(_ sender: Any) {
-        let _ = SIClient.sharedInstance().logOut() { (data, error) in
+        let _ = SIClient.sharedInstance.logOut() { (data, error) in
             if error == nil {
                 performUIUpdatesOnMain {
                     self.navigationController?.popViewController(animated: true)
@@ -110,7 +110,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     private func getPins() {
-        let _ = SIClient.sharedInstance().getPins() { (studentData, error) in
+        let _ = SIClient.sharedInstance.getPins() { (studentData, error) in
             if error == nil {
                 self.students = studentData
                 self.pinTheMap()

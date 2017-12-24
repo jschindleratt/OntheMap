@@ -143,13 +143,15 @@ class LoginViewController: UIViewController, UITextViewDelegate {
             
             let controller: UITabBarController
             controller = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
-            self.present(controller, animated:true, completion:nil)
+            performUIUpdatesOnMain {
+                self.present(controller, animated:true, completion:nil)
+            }
         }
         
         /* 7. Start the request */
-        performUIUpdatesOnMain {
+        //performUIUpdatesOnMain {
             task.resume()
-        }
+        //}
     }
 }
 

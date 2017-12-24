@@ -107,11 +107,14 @@ class SIClient {
         return task
     }
 
-    class func sharedInstance() -> SIClient {
+    static let sharedInstance = SIClient()
+    private init(){}
+    
+    /* class func sharedInstance() -> SIClient {
         struct Singleton {
             static var sharedInstance = SIClient()
         }
         return Singleton.sharedInstance
-    }
+    }*/
  }
 
