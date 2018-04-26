@@ -27,6 +27,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func addPin(_ sender: Any) {
+        print("add pin")
         if LocationTextField.text == "" {
             generateAlert(alrtMessage: "Enter a Location")
         } else {
@@ -41,22 +42,15 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate {
                     let dblLong = (placemark.location?.coordinate.longitude)!
                     let dblLat = (placemark.location?.coordinate.latitude)!
                     if self.bolSubmit == true {
-                        var request = URLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
-                        request.httpMethod = "POST"
-                        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
-                        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
-                        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-                        request.httpBody = "{\"uniqueKey\": \"js2387\", \"firstName\": \"JD\", \"lastName\": \"Mmmm\",\"mapString\": \"\(self.LocationTextField.text!)\", \"mediaURL\": \"\(self.URLTextField.text!)\",\"latitude\": \(dblLat), \"longitude\": \(dblLong)}".data(using: .utf8)
-                        let session = URLSession.shared
-                        let task = session.dataTask(with: request) { data, response, error in
-                            if error != nil { // Handle error…
-                                print(error as Any)
-                                return
+                        let _ = SIClient.sharedInstance.addPin(mapString: self.LocationTextField.text!, mediaURL: self.URLTextField.text!, latitude: dblLat, longitude: dblLong) { (data, error) in
+                            if error == nil {
+                                self.segInfoPost(sender)
+                            } else {
+                                let alert = UIAlertController(title: "Alert", message: "There was a problem logging in!", preferredStyle: UIAlertControllerStyle.alert)
+                                alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
+                                self.present(alert, animated: true, completion: nil)
                             }
-                            print(String(data: data!, encoding: .utf8)!)
-                            self.segInfoPost(sender)
                         }
-                        task.resume()
                     }
                 } else {
                     self.generateAlert(alrtMessage: "Invalid Location")

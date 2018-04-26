@@ -51,28 +51,26 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
                 // Notice that the float values are being used to create CLLocationDegree values.
                 // This is a version of the Double type.
-            
-                let lat = CLLocationDegrees(student.latitude)
-                let long = CLLocationDegrees(student.longitude)
-            
-                // The lat and long are used to create a CLLocationCoordinates2D instance.
-                let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-            
-                let first = student.firstName
-                let last = student.lastName
-                let mediaURL = student.mediaURL
-                if first == "JD" {
-                    print("lat: \(lat) long: \(long))")
+                if student.latitude != nil && student.longitude != nil {
+                    let lat = CLLocationDegrees(student.latitude)
+                    let long = CLLocationDegrees(student.longitude)
+                    
+                    // The lat and long are used to create a CLLocationCoordinates2D instance.
+                    let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                    
+                    let first = student.firstName
+                    let last = student.lastName
+                    let mediaURL = student.mediaURL
+                    
+                    // Here we create the annotation and set its coordiate, title, and subtitle properties
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = coordinate
+                    annotation.title = "\(first) \(last)"
+                    annotation.subtitle = mediaURL
+                    
+                    // Finally we place the annotation in an array of annotations.
+                    annotations.append(annotation)
                 }
-            
-                // Here we create the annotation and set its coordiate, title, and subtitle properties
-                let annotation = MKPointAnnotation()
-                annotation.coordinate = coordinate
-                annotation.title = "\(first) \(last)"
-                annotation.subtitle = mediaURL
-            
-                // Finally we place the annotation in an array of annotations.
-                annotations.append(annotation)
             }
         
             // When the array is complete, we add the annotations to the map.
